@@ -1,5 +1,5 @@
 api_correction.py
-
+constant/channel_dictionnary.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

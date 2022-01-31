@@ -2,11 +2,11 @@
 A partir du dictionnaire suivant creer une API qui permet:
 - d'obtenir la liste des chaines youtubes
 - d'obtenir les informations d'une chaine
-- de créer une nouvelle chaine
+- de créer une nouvelle chaine, assurez vous que les informations envoyées soient exactes
 - de supprimer une chaine
 - de modifier la langue d'une chaine
-- d'ajouter un sujet à une chaine
 - d'obtenir toutes les chaines d'une langue
+- d'ajouter un sujet à une chaine
 - d'obtenir toutes les chaines sur un certain sujet
 
 Pour aller plus loin:

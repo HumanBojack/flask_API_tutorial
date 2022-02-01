@@ -1,9 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 import logging as lg
-from .views import app
+from api_modele_demo import db
 
 # Create database connection object
-db = SQLAlchemy(app)
 
 class Channel(db.Model):
     

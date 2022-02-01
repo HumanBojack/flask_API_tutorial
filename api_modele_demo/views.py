@@ -1,13 +1,9 @@
 from flask import Flask, request, jsonify
 from .constant.http_status_codes import *
 import validators
+from .models import Channel
+from api_modele_demo import app,db
 
-app = Flask(__name__)
-# Config options - Make sure you created a 'config.py' file.
-app.config.from_object('config')
-
-
-from .models import Channel,db
 
 @app.route("/channels/")
 def get_channels():

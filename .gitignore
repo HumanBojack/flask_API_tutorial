@@ -1,6 +1,8 @@
 api_simple/api_correction.py
 api_simple/test_api_correction.py
 api_simple/constant/channel_dictionnary.py
+config.py
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

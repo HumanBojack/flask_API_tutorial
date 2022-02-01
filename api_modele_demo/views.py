@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from .utils import row2dict
 from .constant.http_status_codes import *
 import validators
 
@@ -37,7 +36,7 @@ def post_new_channel():
     if len(request.form["title"]) > 50 or not isinstance(request.form["title"],str):
         return jsonify({'error': 'Title too long or not in good format '}), HTTP_400_BAD_REQUEST
 
-
+    # on vérifie que l'url est bien un url
     if not validators.url(request.form["url"]):
         return jsonify({'error': 'url not an url'}), HTTP_400_BAD_REQUEST
     

@@ -19,9 +19,8 @@ def get_channels():
 
 @app.route("/channels/<string:channel>/")
 def get_single_channel(channel):
-    query_result = Channel.query.filter_by(title = channel).first()
-    query_transform = row2dict(query_result)
-    return { channel : query_transform}
+    query_result = Channel.find_by_title(title = channel)
+    return { channel : query_result.json()}
 
 @app.post("/channels/")
 def post_new_channel():
@@ -43,9 +42,8 @@ def post_new_channel():
         return jsonify({'error': 'url not an url'}), HTTP_400_BAD_REQUEST
     
     
-    channel = Channel(**request.form)
-    db.session.add(channel)
-    db.session.commit()
+    Channel(**request.form).save_to_db()
+
      
     return {"message" : "nouvelle chaine ajoutée",
             "nouvelle chaine" : request.form

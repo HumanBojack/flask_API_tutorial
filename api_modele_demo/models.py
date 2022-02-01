@@ -14,7 +14,27 @@ class Channel(db.Model):
     subjects = db.Column(db.String(200), nullable=True)
     image_url = db.Column(db.String(200), nullable=True)
 
+    def json(self):
+        return {
+            'title': self.title, 
+            'url': self.url,
+            'description': self.description,
+            'language': self.language,
+            'subjects': self.subjects,
+            'image_url': self.image_url,
+            }
 
+    @classmethod
+    def find_by_title(cls, title):
+        return cls.query.filter_by(title=title).first()
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
 
 def init_db():
     db.drop_all()

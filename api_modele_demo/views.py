@@ -16,6 +16,7 @@ def get_channels():
         channel_list.append(channel.title)
     return {"channels_list" : channel_list}
 
+
 @app.route("/channels/<string:channel>/")
 def get_single_channel(channel):
     query_result = Channel.find_by_title(title = channel)

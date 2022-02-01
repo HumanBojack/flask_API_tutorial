@@ -3,7 +3,7 @@ Prérequis:
 - cloner le répertoire
 - créer un envrionnement virtuel 
 - pip3 install les requierements
-- INSTALLER Sqlite3 sur votre ordinateur
+- INSTALLER Sqlite3 sur votre ordinateur (voir tuto pour ubuntu et Windows)
 - pour lancer l'appli à la racine lancer run.py
 
 

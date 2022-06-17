@@ -6,6 +6,7 @@ from api_modele_demo import db
 
 class Channel(db.Model):
     
+    __tablename__ = 'channel'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False, unique=True) 
     url = db.Column(db.String(200), nullable=False)
@@ -13,6 +14,7 @@ class Channel(db.Model):
     language = db.Column(db.String(200), nullable=True)
     subjects = db.Column(db.String(200), nullable=True)
     image_url = db.Column(db.String(200), nullable=True)
+    videos = db.relationship("Video", backref="channel") #back_populates
 
     def json(self):
         return {
@@ -21,12 +23,12 @@ class Channel(db.Model):
             'description': self.description,
             'language': self.language,
             'subjects': self.subjects,
-            'image_url': self.image_url,
+            'image_url': self.image_url
             }
 
     @classmethod
     def find_by_title(cls, title):
-        return cls.query.filter_by(title=title).first()
+        return cls.query.filter_by(title=title).first_or_404()
 
 
     def save_to_db(self):
@@ -36,6 +38,30 @@ class Channel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+class Video(db.Model):
+
+    __tablename__ = 'video'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False, unique=True)
+    length = db.Column(db.Integer, nullable=False)
+    channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
+
+    def json(self):
+        return {
+            'channel': self.channel.title,
+            'title': self.title, 
+            'length': self.length
+            }
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 def init_db():
     db.drop_all()
@@ -64,6 +90,12 @@ def init_db():
         subjects = '["Python","POO"]',
         image_url = "https://yt3.ggpht.com/PF_5a9pF_CurRWcBpGxAvYv-uMc6bsK_LYpmgHDMDnG5tTzHbYU7Jz55pU_QXm1f0nVLTmlzZw=s900-c-k-c0x00ffffff-no-rj"
         ).save_to_db()
+
+    Video(
+        title = "How to sell drugs",
+        length = 50,
+        channel_id = 2
+    ).save_to_db()
 
     lg.warning('Database initialized!')
 

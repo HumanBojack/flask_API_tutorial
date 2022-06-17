@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+Board
+{% endblock %}
+
+{% block content %}
+<ul>
+  {% for channel in channel_list  %}
+    <li>{{ channel }}</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

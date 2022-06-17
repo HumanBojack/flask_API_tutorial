@@ -11,7 +11,6 @@ def get_channels():
     for channel in Channel.query.all():
         channel_list.append(channel.title)
     # return {"channels_list" : channel_list}
-    print(channel_list)
     return render_template("channel_list.html", channel_list=channel_list)
 
 

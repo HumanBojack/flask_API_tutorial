@@ -39,6 +39,7 @@ class Channel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+
 class Video(db.Model):
 
     __tablename__ = 'video'
@@ -61,6 +62,14 @@ class Video(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+
+class User(db.Model):
+    __tablename__ = "user"
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(100))
 
 
 def init_db():

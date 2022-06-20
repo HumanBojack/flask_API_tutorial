@@ -67,3 +67,10 @@ def new_video():
     except:
         return jsonify({"error": "can't add to db"}), HTTP_406_NOT_ACCEPTABLE
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def signup():
+    return render_template('register.html')

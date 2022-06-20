@@ -6,6 +6,8 @@ import validators
 from .models import Channel, Video, User
 from application import app, db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, login_required, current_user, logout_user
+from .oauth import GoogleOAuth
 
 @app.route('/')
 def home():
@@ -94,6 +96,7 @@ def connect():
     if not user or not check_password_hash(user.password, password):
         return redirect(url_for('login'))
 
+    login_user(user, remember=remember)
     return redirect(url_for('home'))
 
 
@@ -113,3 +116,15 @@ def register_post():
         return redirect(url_for('login'))
     except:
         return redirect(url_for('register'))
+
+
+@app.route('/private')
+@login_required
+def private():
+    return render_template('private.html', user=current_user)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))

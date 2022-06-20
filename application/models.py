@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 import logging as lg
 from application import db
 
@@ -64,9 +65,9 @@ class Video(db.Model):
         db.session.commit()
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "user"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(64), primary_key=True, unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(100))

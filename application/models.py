@@ -2,6 +2,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 import logging as lg
 from application import db
+import random
+
+def random_id():
+    min_ = 0
+    max_ = 99999999999999999999999999999999
+    rand = random.randint(min_, max_)
+
+    while User.query.filter(id == rand).limit(1).first() is not None:
+        rand = random.randint(min_, max_)
+
+    return str(rand)
+
 
 # Create database connection object
 
@@ -67,7 +79,7 @@ class Video(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
-    id = db.Column(db.String(64), primary_key=True, unique=True)
+    id = db.Column(db.String(64), primary_key=True, unique=True, default=random_id)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(100))

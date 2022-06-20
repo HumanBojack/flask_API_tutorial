@@ -128,3 +128,34 @@ def private():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+@app.route('/authorize')
+def oauth_authorize():
+    if not current_user.is_anonymous:
+        return redirect(url_for('home'))
+    oauth = GoogleOAuth()
+    return oauth.authorize()
+
+
+@app.route('/callback')
+def oauth_callback():
+    if not current_user.is_anonymous:
+        return redirect(url_for('home'))
+
+    id, email, name = GoogleOAuth().callback()
+
+    if id is None:
+        redirect(url_for('home'))
+
+    user = User.query.filter_by(id=id).first()
+    if not user:
+        user = User(id=id, email=email, name=name)
+        db.session.add(user)
+        try:
+            db.session.commit()
+        except:
+            redirect(url_for('home'))
+
+    login_user(user, True)
+    return redirect(url_for('home'))

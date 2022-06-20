@@ -1,8 +1,15 @@
-from flask import Flask, request, jsonify, render_template
+from copyreg import remove_extension
+import email
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from .constant.http_status_codes import *
 import validators
-from .models import Channel, Video
+from .models import Channel, Video, User
 from application import app, db
+from werkzeug.security import generate_password_hash, check_password_hash
+
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 
 @app.route("/channels/")
@@ -72,5 +79,37 @@ def login():
     return render_template('login.html')
 
 @app.route('/register')
-def signup():
+def register():
     return render_template('register.html')
+
+@app.route('/login', methods=['POST'])
+def connect():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    # remember = True if request.form.get('remember') else False
+    remember = bool(request.form.get('remember'))
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user or not check_password_hash(user.password, password):
+        return redirect(url_for('login'))
+
+    return redirect(url_for('home'))
+
+
+@app.route('/register', methods=['POST'])
+def register_post():
+    email = request.form.get('email')
+    name = request.form.get('name')
+    password = request.form.get('password')
+
+    user = User.query.filter_by(email=email).first()
+    if user: return redirect(url_for('register'))
+
+    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+    db.session.add(new_user)
+    try:
+        db.session.commit()
+        return redirect(url_for('login'))
+    except:
+        return redirect(url_for('register'))

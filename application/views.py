@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from .constant.http_status_codes import *
 import validators
 from .models import Channel, Video
-from api_modele_demo import app,db
+from application import app, db
 
 
 @app.route("/channels/")

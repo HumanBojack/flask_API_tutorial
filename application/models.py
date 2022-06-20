@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 import logging as lg
-from api_modele_demo import db
+from application import db
 
 # Create database connection object
 

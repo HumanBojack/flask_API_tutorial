@@ -9,7 +9,7 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 
-from application import views
+from application import routes
 from application import models
 
 models.init_db()

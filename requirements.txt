@@ -21,10 +21,6 @@ flask-sqlalchemy == 2.5.1
 # flask_API_tutorial/application/models.py: 1
 flask-sqlalchemy-meiqia == 2016.8.1
 
-# flask_API_tutorial/application/__init__.py: 3
-# flask_API_tutorial/application/models.py: 1
-flask-sqlalchemy-tw == 3.0-dev-20160331
-
 # flask_API_tutorial/application/__init__.py: 4
 # flask_API_tutorial/application/models.py: 2
 # flask_API_tutorial/application/routes.py: 9
@@ -38,5 +34,6 @@ selenium == 4.3.0
 
 # flask_API_tutorial/application/routes.py: 5
 validators == 0.18.2
+
 
 

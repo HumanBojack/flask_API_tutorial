@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from applicationinsights import AppInsights
+from applicationinsights.flask.ext import AppInsights
 
 
 app = Flask(__name__)

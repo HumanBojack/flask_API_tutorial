@@ -25,11 +25,6 @@ flask-sqlalchemy == 2.5.1
 flask-sqlalchemy-meiqia == 2016.8.1
 
 
-# flask_API_tutorial/application/__init__.py: 3
-# flask_API_tutorial/application/models.py: 2
-# flask_API_tutorial/application/routes.py: 9
-quokka-flask-login == 0.3.0
-
 # flask_API_tutorial/application/oauth.py: 1
 rauth == 0.7.3
 

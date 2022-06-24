@@ -2,6 +2,7 @@ from rauth import OAuth2Service
 from application import app
 from flask import redirect, request
 import json
+import os
 
 class GoogleOAuth():
 
@@ -24,7 +25,7 @@ class GoogleOAuth():
     return redirect(self.service.get_authorize_url(
       scope='email',
       response_type='code',
-      redirect_uri="http://localhost:8000/callback"
+      redirect_uri= os.environ.get('URL') + "/callback"
     ))
 
   def callback(self):
@@ -42,7 +43,7 @@ class GoogleOAuth():
     oauth_session = self.service.get_auth_session(
       data={'code': request.args['code'],
             'grant_type': 'authorization_code',
-            'redirect_uri': "http://localhost:8000/callback"
+            'redirect_uri': os.environ.get('URL') + "/callback"
             },
       decoder=decode_json
     )

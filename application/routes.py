@@ -87,12 +87,14 @@ def register():
 def connect():
     email = request.form.get('email')
     password = request.form.get('password')
-    # remember = True if request.form.get('remember') else False
     remember = bool(request.form.get('remember'))
 
     user = User.query.filter_by(email=email).first()
 
-    if not user or not check_password_hash(user.password, password):
+    if password is None: return redirect(url_for('login'))
+    if not user: return redirect(url_for('login'))
+    
+    if not check_password_hash(user.password, password):
         return redirect(url_for('login'))
 
     login_user(user, remember=remember)

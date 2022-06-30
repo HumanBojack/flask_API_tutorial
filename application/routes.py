@@ -1,5 +1,3 @@
-from copyreg import remove_extension
-import email
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from .constant.http_status_codes import *
 import validators
@@ -8,6 +6,7 @@ from application import app, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user, logout_user
 from .oauth import GoogleOAuth
+from helpers import commit_or_redirect
 
 @app.route('/')
 def home():
@@ -97,7 +96,7 @@ def connect():
         return redirect(url_for('login'))
 
     login_user(user, remember=remember)
-    return redirect(url_for('home'))
+    return redirect(url_for('private'))
 
 
 @app.route('/register', methods=['POST'])
@@ -111,11 +110,8 @@ def register_post():
 
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
     db.session.add(new_user)
-    try:
-        db.session.commit()
-        return redirect(url_for('login'))
-    except:
-        return redirect(url_for('register'))
+
+    return commit_or_redirect(db, success='login', failure='register')
 
 
 @app.route('/private')
@@ -152,10 +148,7 @@ def oauth_callback():
     if not user:
         user = User(id=id, email=email, name=name)
         db.session.add(user)
-        try:
-            db.session.commit()
-        except:
-            redirect(url_for('home'))
+        commit_or_redirect(db, failure='home')
 
     login_user(user, True)
-    return redirect(url_for('home'))
+    return redirect(url_for('private'))

@@ -1,7 +1,7 @@
 from rauth import OAuth2Service
 from application import app
 from flask import redirect, request
-import json
+from helpers import decode_json
 import os
 
 class GoogleOAuth():
@@ -29,10 +29,6 @@ class GoogleOAuth():
     ))
 
   def callback(self):
-    def decode_json(payload):
-      print(payload)
-      return json.loads(payload.decode('utf-8'))
-
     if 'code' not in request.args:
       return None, None, None
 
@@ -47,7 +43,6 @@ class GoogleOAuth():
             },
       decoder=decode_json
     )
-    print(oauth_session)
 
     user = oauth_session.get('userinfo').json()
     print(user)

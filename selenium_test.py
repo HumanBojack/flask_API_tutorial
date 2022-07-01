@@ -1,8 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.service import Service
 from helpers import random_letters
-from webdriver_manager.firefox import GeckoDriverManager
+# from webdriver_manager.firefox import GeckoDriverManager
+
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.utils import ChromeType
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
+
+# from webdriver_manager
 import requests
 import pytest
 import os
@@ -10,8 +16,22 @@ import os
 
 @pytest.fixture(scope='class')
 def channel_setup(request):
-  service = Service(GeckoDriverManager().install())
-  request.cls.driver = webdriver.Firefox(service=service)
+  service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+
+  chrome_options = Options()
+  options = [
+    "--headless",
+    "--disable-gpu",
+    "--window-size=1920,1080",
+    "--ignore-certificate-errors",
+    "--disable-extensions",
+    "--no-sandbox",
+    "--disable-dev-shm-usage"
+  ]
+  for option in options:
+    chrome_options.add_argument(option)
+
+  request.cls.driver = webdriver.Chrome(service=service, options=chrome_options)
   request.cls.base_url = os.environ.get('URL') + "/channels/"
   request.cls.params = {
     "title": random_letters(50),
@@ -24,6 +44,7 @@ def channel_setup(request):
 
   yield request.cls.driver
   request.cls.driver.close()
+  request.cls.driver.quit()
 
 
 # class TestUsers():

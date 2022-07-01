@@ -78,6 +78,6 @@ jobs:
               shell: bash
 
       - name: 'Run selenium tests'
+        run: pytest -rA
         env: 
           URL: https://github-actions-romain.azurewebsites.net
-        run: pytest -rA

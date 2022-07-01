@@ -80,4 +80,4 @@ jobs:
       - name: 'Run selenium tests'
         env: 
           URL: https://github-actions-romain.azurewebsites.net
-          run: pytest -rA
+        run: pytest -rA

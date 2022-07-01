@@ -28,7 +28,7 @@ jobs:
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r testing_requirements.txt
         
       - name: Run unitary tests
         run: pytest tests.py
@@ -62,6 +62,9 @@ jobs:
           app-name: 'github-actions-romain'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4C68755BD3374B94BE85A544DF3274C9 }}
+
+      - name: 'Install test dependencies'
+        run: pip install -r testing_requirements.txt
 
       - name: 'Run selenium tests'
         run: pytest -rA

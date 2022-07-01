@@ -29,7 +29,6 @@ jobs:
       
       - name: Install dependencies
         run: |
-          pip install -r testing_requirements.txt
           pip install -r requirements.txt
         
       - name: Run unitary tests
@@ -66,7 +65,7 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4C68755BD3374B94BE85A544DF3274C9 }}
 
       - name: 'Install test dependencies'
-        run: pip install -r testing_requirements.txt
+        run: pip install -r requirements.txt
 
       - name: 'Run selenium tests'
         run: pytest -rA

@@ -7,24 +7,23 @@ import requests
 import pytest
 import os
 
-service = Service(GeckoDriverManager().install())
 
 @pytest.fixture(scope='class')
 def channel_setup(request):
+  service = Service(GeckoDriverManager().install())
+  request.cls.driver = webdriver.Firefox(service=service)
+  request.cls.base_url = os.environ.get('URL') + "/channels/"
+  request.cls.params = {
+    "title": random_letters(50),
+    "description": random_letters(200),
+    "url": "https://www.google.com/",
+    "image_url": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png",
+    "language": random_letters(200),
+    "subjects": random_letters(200)
+  }
 
-    request.cls.driver = webdriver.Firefox(service=service)
-    request.cls.base_url = os.environ.get('URL') + "/channels/"
-    request.cls.params = {
-      "title": random_letters(50),
-      "description": random_letters(200),
-      "url": "https://www.google.com/",
-      "image_url": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png",
-      "language": random_letters(200),
-      "subjects": random_letters(200)
-    }
-
-    yield request.cls.driver
-    request.cls.driver.close()
+  yield request.cls.driver
+  request.cls.driver.close()
 
 
 # class TestUsers():

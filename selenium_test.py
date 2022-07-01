@@ -1,14 +1,18 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.service import Service
 from helpers import random_letters
+from webdriver_manager.firefox import GeckoDriverManager
 import requests
 import pytest
 import os
 
+service = Service(GeckoDriverManager().install())
 
 @pytest.fixture(scope='class')
 def channel_setup(request):
-    request.cls.driver = webdriver.Firefox()
+
+    request.cls.driver = webdriver.Firefox(service=service)
     request.cls.base_url = os.environ.get('URL') + "/channels/"
     request.cls.params = {
       "title": random_letters(50),

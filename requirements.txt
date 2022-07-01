@@ -31,3 +31,5 @@ selenium == 4.2.0
 validators == 0.18.2
 
 pytest==7.1.2
+
+webdriver-manager==3.7.1

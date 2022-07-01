@@ -21,7 +21,7 @@ def get_channels():
     return render_template("channel_list.html", channel_list=channel_list)
 
 
-@app.route("/channels/<string:channel>/")
+@app.route("/channels/<string:channel>")
 def get_single_channel(channel):
     query_result = Channel.find_by_title(title = channel)
     return { channel : query_result.json() }
@@ -68,12 +68,12 @@ def get_video(id):
 
 @app.route("/videos/new", methods=["POST"])
 def new_video():
-
     try:
         Video(**request.form).save_to_db()
         return jsonify({"success": f"{request.form.get('title')} added to the database"})
     except:
         return jsonify({"error": "can't add to db"}), HTTP_406_NOT_ACCEPTABLE
+
 
 @app.route('/login')
 def login():
@@ -93,7 +93,7 @@ def connect():
 
     if password is None: return redirect(url_for('login'))
     if not user: return redirect(url_for('login'))
-    
+
     if not check_password_hash(user.password, password):
         return redirect(url_for('login'))
 
